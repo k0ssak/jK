@@ -22,9 +22,14 @@ $(document).ready(function () {
     console.log(Slider2);
     jK.fireEvent('elements.add');
 
+    var mSlider = mTools.createInstance('MiniSlider');
+    mSlider.set('name', 'Aleksander');
+    mSlider.set('surname', 'Oleksy');
+    console.log(mSlider);
+
     //var t1 = performance.now();
     //console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
 }.bind(jK));
 
-// TODO: Setter and getters + Events with chain properties (prototype problem): (name.surname.bla, 'cos')
+// TODO: getters
 // TODO: fireEvent on Class

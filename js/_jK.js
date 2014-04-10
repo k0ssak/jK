@@ -182,6 +182,7 @@ jK.Class = function (classPrototype, uber) {
             }
         }.bind(this);
 
+        // TODO: not working yet
         this.get = function (propertyName) {
             return this.options[propertyName];
         }.bind(this);
