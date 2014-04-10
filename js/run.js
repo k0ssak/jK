@@ -6,16 +6,21 @@ $(document).ready(function () {
         Slider,
         Slider2;
 
-    Slider = mTools.createInstance('Slider', {
-        name: 'Jan'
+    Slider = mTools.createInstance('Slider');
+    Slider2 = mTools.createInstance('Slider', {
+        addr: {
+            home: 34
+        }
     });
 
-    Slider2 = mTools.createInstance('Slider');
-
     Slider.set('name', 'Karol');
+    Slider.set('addr.a.d.s', '1');
+
+    Slider2.set('name', 'Piotr');
+    Slider2.set('addr.street', 'krotka');
     console.log(Slider);
     console.log(Slider2);
-    //jK.fireEvent('elements.add');
+    jK.fireEvent('elements.add');
 
     //var t1 = performance.now();
     //console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")

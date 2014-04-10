@@ -26,17 +26,9 @@
 
             options: {
                 name: 'Marek',
-                address: {
-                    street: {
-                        number: {
-                            house: {
-                                dom: 'moj dom'
-                            }
-                        }
-                    }
-                },
-                tel: {
-                    phone: '555'
+                addr: {
+                    street: 'cos',
+                    home: 31
                 }
             },
 
@@ -59,12 +51,16 @@
 
                 'change:name' : function () {
                     console.log('Triggered ' + this.options.name);
+                },
+
+                'change:addr:a:d:s' : function () {
+                    console.log('some crazy shit happened');
                 }
             },
 
             initialize: function () {
-                console.log(this);
-                privFunc.call(this);
+                //console.log(this);
+                //privFunc.call(this);
             },
 
             nameSay: function (s) {

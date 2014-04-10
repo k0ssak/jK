@@ -43,7 +43,8 @@ jK.Tools = (function () {
     var isObject,
         registerClass,
         createInstance,
-        getInstance;
+        getInstance,
+        mapOptions;
 
     isObject = function (object) {
         if (object !== null && object.length === undefined && typeof object === 'object') {
@@ -88,11 +89,28 @@ jK.Tools = (function () {
         return jK.Classes[className].Instances[0];
     };
 
+    mapOptions = function(obj, path) {
+        var option;
+
+        for (option in obj) {
+            if (obj.hasOwnProperty(option) && !isObject(obj[option])) {  
+                path[option] = obj[option];
+            } else {
+                if (path[option] === undefined) {
+                    path[option] = {};
+                }
+
+                mapOptions(obj[option], path[option]);
+            }
+        }
+    };
+
     return {
         isObject : isObject,
         registerClass : registerClass,
         createInstance : createInstance,
-        getInstance : getInstance
+        getInstance : getInstance,
+        mapOptions : mapOptions
     };
 }());
 
@@ -111,26 +129,16 @@ jK.Class = function (classPrototype, uber) {
 
         this.options = {};
 
+        // Merging prototype options with "_class" options. Providing unique set of options for every instance of "_class"
+        mTools.mapOptions(_class.prototype.options, this.options);
+
         if (initOptions) {
             if (mTools.isObject(initOptions)) {
                 // Addind options to "_class" provided on init.
-                for (option in initOptions) {
-                    if (initOptions.hasOwnProperty(option)) {
-                        this.options[option] = initOptions[option];
-                    }
-                }
+                mTools.mapOptions(initOptions, this.options);
             } else {
                 console.error('Error occured whilte creating ' + this.name + ' object. Initializing object with not object value! "' + initOptions + '" is not an object');
                 return false;
-            }
-        }
-
-        // Merging prototype options with "_class" options. Providing unique set of options for every instance of "_class"
-        for (option in _class.prototype.options) {
-            if (_class.prototype.options.hasOwnProperty(option)) {
-                if (!this.options[option]) {
-                    this.options[option] = _class.prototype.options[option];
-                }
             }
         }
 
@@ -148,14 +156,29 @@ jK.Class = function (classPrototype, uber) {
         }
 
         this.set = function (propertyName, propertyValue) {
-            this.options[propertyName] = propertyValue;
+            var properties = propertyName.split('.'),
+                propLength = properties.length,
+                propNext = this.options,
+                i;
+
+            for (i = 0; i < propLength; i++) {
+                if (propNext[properties[i]] === undefined) {
+                    propNext[properties[i]] = { };
+                }
+
+                if (i === (propLength - 1)) {
+                    propNext[properties[i]] = propertyValue;
+                }
+
+                propNext = propNext[properties[i]];
+            }
 
             if (this.listeners.change !== undefined) {
                 this.listeners.change.call(this);
             }
 
-            if (this.listeners['change:' + propertyName] !== undefined) {
-                this.listeners['change:' + propertyName].call(this);
+            if (this.listeners['change:' + propertyName.replace(/\./g, ':')] !== undefined) {
+                this.listeners['change:' + propertyName.replace(/\./g, ':')].call(this);
             }
         }.bind(this);
 
