@@ -13,23 +13,23 @@ $(document).ready(function () {
         }
     });
 
-    Slider.set('name', 'Karol');
-    Slider.set('addr.a.d.s', '1');
-
-    Slider2.set('name', 'Piotr');
-    Slider2.set('addr.street', 'krotka');
+    Slider.set('1.2.3', 'moj dom');
     console.log(Slider);
-    console.log(Slider2);
-    jK.fireEvent('elements.add');
+    console.log(Slider.get('1.2.3'));
 
-    var mSlider = mTools.createInstance('MiniSlider');
-    mSlider.set('name', 'Aleksander');
-    mSlider.set('surname', 'Oleksy');
-    console.log(mSlider);
+    //Slider2.set('name', 'Piotr');
+    //Slider2.set('addr.street', 'krotka');
+    //console.log(Slider);
+    //console.log(Slider2);
+    //jK.fireEvent('elements.add');
+
+    //var mSlider = mTools.createInstance('MiniSlider');
+    //mSlider.set('name', 'Aleksander');
+    //mSlider.set('surname', 'Oleksy');
+    //console.log(mSlider);
 
     //var t1 = performance.now();
     //console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
 }.bind(jK));
 
-// TODO: getters
 // TODO: fireEvent on Class

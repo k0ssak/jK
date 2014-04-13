@@ -46,11 +46,11 @@
                 },
 
                 'change' : function () {
-                    console.log('Some property changed');
+                    //console.log('Some property changed');
                 },
 
                 'change:name' : function () {
-                    console.log('Triggered ' + this.options.name);
+                    //console.log('Triggered ' + this.options.name);
                 },
 
                 'change:addr:a:d:s' : function () {

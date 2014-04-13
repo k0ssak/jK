@@ -173,18 +173,32 @@ jK.Class = function (classPrototype, uber) {
                 propNext = propNext[properties[i]];
             }
 
-            if (this.listeners.change !== undefined) {
+            if (typeof this.listeners.change === 'function') {
                 this.listeners.change.call(this);
             }
 
-            if (this.listeners['change:' + propertyName.replace(/\./g, ':')] !== undefined) {
+            if (typeof this.listeners['change:' + propertyName.replace(/\./g, ':')] === 'function') {
                 this.listeners['change:' + propertyName.replace(/\./g, ':')].call(this);
             }
+
+            return this;
         }.bind(this);
 
-        // TODO: not working yet
         this.get = function (propertyName) {
-            return this.options[propertyName];
+            var properties = propertyName.split('.'),
+                propLength = properties.length,
+                propNext = this.options,
+                i;
+
+            for (i = 0; i < propLength; i++) {
+                if (i === (propLength - 1)) {
+                    return propNext[properties[i]] !== undefined ? propNext[properties[i]] : false;
+                } 
+
+                propNext = propNext[properties[i]];
+            }
+
+            return false;
         }.bind(this);
 
         // Auto initializing object only if DOMReady
