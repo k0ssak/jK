@@ -1,5 +1,5 @@
 var jK = {
-    fireEvent: function (eventName) {
+    fireEvent: function (eventName, args) {
         'use strict';
 
         var mOptions = jK.Options,
@@ -7,7 +7,7 @@ var jK = {
 
         for (object in mOptions.Events[eventName]) {
             if (mOptions.Events[eventName].hasOwnProperty(object)) {
-                mOptions.Events[eventName][object].listeners[eventName].call(mOptions.Events[eventName][object]);
+                mOptions.Events[eventName][object].listeners[eventName].apply(mOptions.Events[eventName][object], args);
             }
         }
     }
@@ -199,6 +199,10 @@ jK.Class = function (classPrototype, uber) {
             }
 
             return false;
+        }.bind(this);
+
+        this.fireEvent = function (eventName, args) {
+            this.listeners[eventName].apply(this, args);
         }.bind(this);
 
         // Auto initializing object only if DOMReady
