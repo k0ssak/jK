@@ -24,11 +24,11 @@ jK.preInit = (function () {
 
     var mOptions = jK.Options;
 
-    $(document).ready(function () {
+    document.addEventListener('DOMContentLoaded', function () {
         mOptions.DOMReady = true;
     });
 
-    $(window).load(function () {
+    window.addEventListener('load', function () {
         mOptions.DOMLoaded = true;
     });
 
