@@ -209,8 +209,6 @@ jK._Class = function (classPrototype, uber) {
 
                 propNext = propNext[properties[i]];
             }
-
-            return false;
         }.bind(this);
 
         this.fireEvent = function (eventName, args) {
