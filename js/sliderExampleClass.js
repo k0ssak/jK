@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    jK.Classes.Slider = function () {
+    jK._Classes.Slider = function () {
         /*
         *  Slider private methods and variables
         *  Private methods has to be called with 'this'. This allows access to object public methods and vars.  * privateFunction.call(this) * 
@@ -15,7 +15,7 @@
         *  Slider public (prototype) methods and variables. 
         */
 
-        jK.Slider = new jK.Class({
+        jK.Slider = new jK._Class({
             name: 'SliderModule',
             version: '5.5.0',
 
@@ -75,7 +75,7 @@
         });
     };
 
-    jK.Tools.registerClass('Slider', {
+    jK._Tools.registerClass('Slider', {
         condition: true,
         autoInitialize: false,
         singleton: false

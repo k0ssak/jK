@@ -4,13 +4,13 @@
 (function () {
     'use strict';
 
-    jK.Classes.MiniSlider = function () {
-        jK.MiniSlider = new jK.Class({
+    jK._Classes.MiniSlider = function () {
+        jK.MiniSlider = new jK._Class({
             name: 'MiniSlider Module'
         }, jK.Slider);
     };
 
-    jK.Tools.registerClass('MiniSlider', {
+    jK._Tools.registerClass('MiniSlider', {
         condition: true,
         autoInitialize: false,
         singleton: false

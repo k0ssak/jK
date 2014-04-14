@@ -2,7 +2,7 @@ var jK = {
     fireEvent: function (eventName, args) {
         'use strict';
 
-        var mOptions = jK.Options,
+        var mOptions = jK._Options,
             object;
 
         for (object in mOptions.Events[eventName]) {
@@ -13,31 +13,43 @@ var jK = {
     }
 };
 
-jK.Options = {
+jK._Options = {
     DOMReady: false,
     DOMLoaded: false,
     Events: { }
 };
 
-jK.preInit = (function () {
+jK._preInit = (function () {
     'use strict';
 
-    var mOptions = jK.Options;
+    var mOptions = jK._Options;
 
-    document.addEventListener('DOMContentLoaded', function () {
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
         mOptions.DOMReady = true;
-    });
 
-    window.addEventListener('load', function () {
-        mOptions.DOMLoaded = true;
-    });
+        if (document.readyState === 'complete') {
+            mOptions.DOMLoaded = true;
+        }
+    }
 
-    jK.Classes = {};
+    if (!mOptions.DOMReady) {
+        document.addEventListener('DOMContentLoaded', function () {
+            mOptions.DOMReady = true;
+        });
+    }
+
+    if (!mOptions.DOMLoaded) {   
+        window.addEventListener('load', function () {
+            mOptions.DOMLoaded = true;
+        });
+    }
+
+    jK._Classes = {};
 
     return true;
 }());
 
-jK.Tools = (function () {
+jK._Tools = (function () {
     'use strict';
 
     var isObject,
@@ -55,7 +67,7 @@ jK.Tools = (function () {
     };
 
     registerClass = function (className, options) {
-        var moduleName = jK.Classes[className];
+        var moduleName = jK._Classes[className];
 
         if (moduleName.registred !== true) {
             moduleName.registred = true;
@@ -76,7 +88,7 @@ jK.Tools = (function () {
     };
 
     createInstance = function (className, options) {
-        var moduleName = jK.Classes[className];
+        var moduleName = jK._Classes[className];
 
         if ((moduleName.Instances.Singleton && moduleName.Instances[0] === undefined) || !moduleName.Instances.Singleton) {
             moduleName.Instances.push(new jK[className](options));
@@ -86,7 +98,7 @@ jK.Tools = (function () {
     };
 
     getInstance = function (className) {
-        return jK.Classes[className].Instances[0];
+        return jK._Classes[className].Instances[0];
     };
 
     mapOptions = function(obj, path) {
@@ -114,11 +126,11 @@ jK.Tools = (function () {
     };
 }());
 
-jK.Class = function (classPrototype, uber) {
+jK._Class = function (classPrototype, uber) {
     'use strict';
 
-    var mTools = jK.Tools,
-        mOptions = jK.Options,
+    var mTools = jK._Tools,
+        mOptions = jK._Options,
         parentOption,
         _class;
 
