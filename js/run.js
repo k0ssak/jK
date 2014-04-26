@@ -6,12 +6,12 @@ $(document).ready(function () {
         Slider,
         Slider2;
 
-    Slider = mTools.createInstance('Slider');
-    Slider2 = mTools.createInstance('Slider', {
+    //Slider = mTools.createInstance('Slider');
+    /*Slider2 = mTools.createInstance('Slider', {
         addr: {
             home: 34
         }
-    });
+    });*/
 
     //Slider.set('1.2.3', 'moj dom');
     /*Slider.set('name', 'Karol');

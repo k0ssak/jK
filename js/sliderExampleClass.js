@@ -61,7 +61,8 @@
             },
 
             initialize: function () {
-                //console.log(this);
+                console.log(this);
+                //console.log(this.get('el'))
                 //privFunc.call(this);
             },
 

@@ -84,7 +84,9 @@ jK._Tools = (function () {
                 if (options.autoInitialize === true) {
                     if (options.$el.length > 0) { // jQuery hard dependency
                         options.$el.each(function () {
-                            this[className] = createInstance(className); 
+                            this[className] = createInstance(className, {
+                                'el': $(this)
+                            }); 
                         });
                     } else {
                         createInstance(className);
@@ -159,6 +161,11 @@ jK._Class = function (classPrototype, uber) {
                 console.error('Error occured whilte creating ' + this.name + ' object. Initializing object with not object value! "' + initOptions + '" is not an object');
                 return false;
             }
+        }
+
+        if (initOptions.el.length > 0) {
+            this.$view = initOptions.el;
+            delete this.options.el;
         }
 
         // Add Event listeners on Object
