@@ -1,4 +1,5 @@
 var jK = {
+    // global jK.fireEvent fires *eventName* on all objects registred to that event
     fireEvent: function (eventName, args) {
         'use strict';
 
@@ -81,7 +82,13 @@ jK._Tools = (function () {
                 moduleName.call();
 
                 if (options.autoInitialize === true) {
-                    createInstance(className);
+                    if (options.$el.length > 0) { // jQuery hard dependency
+                        options.$el.each(function () {
+                            this[className] = createInstance(className); 
+                        });
+                    } else {
+                        createInstance(className);
+                    }
                 }
             }
         }
@@ -185,12 +192,14 @@ jK._Class = function (classPrototype, uber) {
                 propNext = propNext[properties[i]];
             }
 
-            if (typeof this.listeners.change === 'function') {
-                this.listeners.change.call(this);
-            }
+            if (this.listeners !== undefined) {
+                if (typeof this.listeners.change === 'function') {
+                    this.listeners.change.call(this);
+                }
 
-            if (typeof this.listeners['change:' + propertyName.replace(/\./g, ':')] === 'function') {
-                this.listeners['change:' + propertyName.replace(/\./g, ':')].call(this);
+                if (typeof this.listeners['change:' + propertyName.replace(/\./g, ':')] === 'function') {
+                    this.listeners['change:' + propertyName.replace(/\./g, ':')].call(this);
+                }
             }
 
             return this;
@@ -211,8 +220,13 @@ jK._Class = function (classPrototype, uber) {
             }
         }.bind(this);
 
+        // Fires event only on *this* object
         this.fireEvent = function (eventName, args) {
-            this.listeners[eventName].apply(this, args);
+            if (this.listeners !== undefined) {
+                this.listeners[eventName].apply(this, args);
+            } 
+
+            return this;
         }.bind(this);
 
         // Auto initializing object only if DOMReady

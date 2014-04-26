@@ -3,8 +3,8 @@
 
     jK._Classes.Slider = function () {
         /*
-        *  Slider private methods and variables
-        *  Private methods has to be called with 'this'. This allows access to object public methods and vars.  * privateFunction.call(this) * 
+        *  Slider private static methods and variables
+        *  Those methods has to be called with 'this'. This allows access to object public methods and vars.  * privateFunction.call(this) * 
         */
 
         var privFunc = function () {
@@ -77,7 +77,8 @@
 
     jK._Tools.registerClass('Slider', {
         condition: true,
-        autoInitialize: false,
-        singleton: false
+        autoInitialize: true,
+        singleton: false,
+        $el: $('div') // jQuery hard dependency
     });
 }());
